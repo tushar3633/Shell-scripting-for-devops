@@ -11,19 +11,20 @@ clone_code() {
 
 install_requirements() {
 	echo "Installing Dependencies"
-	sudo apt-get install docker.io nginx -y
+	sudo apt-get install docker.io nginx -y docker-composep
 }
 
 required_restart() {
-	sudo chown $USER var/run/docker.sock
-	sudo systemctl enable docker
-	sudo systemctl enable nginx
-	sudo systemctl restart docker
+	sudo chown $USER /var/run/docker.sock
+	#sudo systemctl enable docker
+	#sudo systemctl enable nginx
+	#sudo systemctl restart docker
 }
 
 deploy() {
 	sudo docker build -t notes-app .
-	sudo docker run -d -p 8000:8000 notes-app:latest
+	docker-compose up -d
+	#sudo docker run -d -p 8000:8000 notes-app:latest
 }
 
 echo "Deploying *********************"
@@ -41,6 +42,11 @@ if ! required_restart; then
 	exit 1
 fi
 
-deploy
+if ! deploy; then
+	echo "Deployment failed ,mail the admin"
+	#send mail
+	exit 1
+fi
+
 
 echo "Deployment done *********************"

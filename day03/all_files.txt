@@ -1,0 +1,7 @@
+all_files.txt
+connectivity_check.sh
+deploy_django_app.sh
+django-notes-app
+error_handle.sh
+root_user_check.sh
+tushar
